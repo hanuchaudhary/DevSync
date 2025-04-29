@@ -40,30 +40,26 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   try {
-    // Connect to database
     await connectToDatabase();
-
-    // Get current session
     const session = await getServerSession();
 
-    if (!session || !session.user) {
+    console.log("session", session);
+
+    if (!session) {
       return NextResponse.json(
         { error: "Authentication required" },
         { status: 401 }
       );
     }
 
-    // Parse request body
     const { tagline } = await req.json();
-
-    // Fetch GitHub data
-    const githubData = await fetchGitHubUserData(session.accessToken);
+    // const githubData = await fetchGitHubUserData(session.accessToken);
 
     // Update user in database
     const updatedUser = await User.findOneAndUpdate(
       { email: session.user.email },
       {
-        ...githubData,
+        // ...githubData,
         tagline: tagline || "", // Add custom tagline if provided
       },
       { new: true }
@@ -74,8 +70,8 @@ export async function POST(req: NextRequest) {
     }
 
     return NextResponse.json({ user: updatedUser });
-  } catch (error) {
-    console.error("Error updating profile:", error);
+  } catch (error : any) {
+    console.error("Error updating profile:", error.response);
     return NextResponse.json(
       { error: "Failed to update profile" },
       { status: 500 }
