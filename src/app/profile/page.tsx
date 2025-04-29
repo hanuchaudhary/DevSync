@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { Loader2, MapPin, Code, Edit } from "lucide-react";
+import { Loader2, MapPin, Code, Edit, Building, Building2, Eye, FileCode, GitFork, Link, Twitter, UserPlus, Users } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -154,13 +154,63 @@ export default function ProfilePage() {
             </CardTitle>
             <div className="text-sm text-muted-foreground">@{profile.username}</div>
             
-            {/* Location */}
-            {profile.location && (
-              <div className="flex items-center gap-1 mt-1 text-sm text-muted-foreground">
-                <MapPin size={14} />
-                <span>{profile.location}</span>
+            {/* Social Links */}
+            <div className="flex items-center gap-3 mt-2">
+              {profile.location && (
+                <div className="flex items-center gap-1 text-sm text-muted-foreground">
+                  <MapPin size={14} />
+                  <span>{profile.location}</span>
+                </div>
+              )}
+              {profile.company && (
+                <div className="flex items-center gap-1 text-sm text-muted-foreground">
+                  <Building2 size={14} />
+                  <span>{profile.company}</span>
+                </div>
+              )}
+              {profile.blog && (
+                <a 
+                  href={profile.blog.startsWith('http') ? profile.blog : `https://${profile.blog}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-1 text-sm text-muted-foreground hover:text-primary"
+                >
+                  <Link size={14} />
+                  <span>Website</span>
+                </a>
+              )}
+              {profile.twitterUsername && (
+                <a 
+                  href={`https://twitter.com/${profile.twitterUsername}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-1 text-sm text-muted-foreground hover:text-primary"
+                >
+                  <Twitter size={14} />
+                  <span>@{profile.twitterUsername}</span>
+                </a>
+              )}
+            </div>
+
+            {/* GitHub Stats */}
+            <div className="flex items-center gap-4 mt-4 text-sm text-muted-foreground">
+              <div className="flex items-center gap-1">
+                <Users size={14} />
+                <span>{profile.followers} followers</span>
               </div>
-            )}
+              <div className="flex items-center gap-1">
+                <UserPlus size={14} />
+                <span>{profile.following} following</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <GitFork size={14} />
+                <span>{profile.publicRepos} repos</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <FileCode size={14} />
+                <span>{profile.publicGists} gists</span>
+              </div>
+            </div>
           </div>
         </CardHeader>
         
@@ -247,16 +297,54 @@ export default function ProfilePage() {
               </div>
             </div>
           )}
+
+          {/* Organizations */}
+          {profile.organizations && profile.organizations.length > 0 && (
+            <div className="space-y-3">
+              <div className="flex items-center gap-1">
+                <Building size={16} />
+                <h3 className="text-sm font-medium">Organizations</h3>
+              </div>
+              <div className="flex flex-wrap gap-4">
+                {profile.organizations.map((org: any) => (
+                  <a
+                    key={org.login}
+                    href={`https://github.com/${org.login}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 p-2 rounded-lg border hover:bg-muted/50 transition-colors"
+                  >
+                    <div className="relative w-8 h-8 rounded-md overflow-hidden">
+                      <Image
+                        src={org.avatarUrl}
+                        alt={org.login}
+                        layout="fill"
+                        objectFit="cover"
+                      />
+                    </div>
+                    <div>
+                      <div className="font-medium">{org.login}</div>
+                      {org.description && (
+                        <div className="text-xs text-muted-foreground line-clamp-1">
+                          {org.description}
+                        </div>
+                      )}
+                    </div>
+                  </a>
+                ))}
+              </div>
+            </div>
+          )}
           
           {/* Repositories */}
           {profile.repos && profile.repos.length > 0 && (
             <div className="space-y-3">
               <h3 className="text-sm font-medium">Top Repositories</h3>
               <div className="space-y-3">
-                {profile.repos.slice(0, 3).map((repo: any) => (
+                {profile.repos.map((repo: any) => (
                   <div 
                     key={repo.name} 
-                    className="rounded-lg border p-3"
+                    className="rounded-lg border p-3 space-y-2"
                   >
                     <div className="flex justify-between items-start">
                       <a 
@@ -267,26 +355,51 @@ export default function ProfilePage() {
                       >
                         {repo.name}
                       </a>
-                      {repo.stars > 0 && (
-                        <div className="flex items-center text-xs text-muted-foreground">
-                          <Star className="mr-1" />
-                          {repo.stars}
-                        </div>
-                      )}
+                      <div className="flex items-center gap-3 text-xs text-muted-foreground">
+                        {repo.stars > 0 && (
+                          <div className="flex items-center gap-1">
+                            <Star className="h-4 w-4" />
+                            {repo.stars}
+                          </div>
+                        )}
+                        {repo.forks > 0 && (
+                          <div className="flex items-center gap-1">
+                            <GitFork className="h-4 w-4" />
+                            {repo.forks}
+                          </div>
+                        )}
+                        {repo.watchers > 0 && (
+                          <div className="flex items-center gap-1">
+                            <Eye className="h-4 w-4" />
+                            {repo.watchers}
+                          </div>
+                        )}
+                      </div>
                     </div>
                     {repo.description && (
-                      <p className="text-sm text-muted-foreground mt-1">
+                      <p className="text-sm text-muted-foreground">
                         {repo.description}
                       </p>
                     )}
-                    {repo.language && (
-                      <Badge 
-                        variant="outline" 
-                        className={`mt-2 ${getLanguageColor(repo.language)}`}
-                      >
-                        {repo.language}
-                      </Badge>
-                    )}
+                    <div className="flex flex-wrap gap-2">
+                      {repo.language && (
+                        <Badge 
+                          variant="outline" 
+                          className={getLanguageColor(repo.language)}
+                        >
+                          {repo.language}
+                        </Badge>
+                      )}
+                      {repo.topics && repo.topics.map((topic: string) => (
+                        <Badge 
+                          key={topic}
+                          variant="outline"
+                          className="bg-primary/10"
+                        >
+                          {topic}
+                        </Badge>
+                      ))}
+                    </div>
                   </div>
                 ))}
               </div>

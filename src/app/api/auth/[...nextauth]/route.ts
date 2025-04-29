@@ -1,6 +1,7 @@
 import NextAuth, { AuthOptions } from "next-auth";
 import GithubProvider from "next-auth/providers/github";
 import { connectToDatabase } from "@/lib/db";
+import { fetchGitHubUserData } from "@/lib/github";
 import User from "@/models/User";
 
 const authOptions: AuthOptions = {
@@ -8,6 +9,11 @@ const authOptions: AuthOptions = {
     GithubProvider({
       clientId: process.env.GITHUB_CLIENT_ID as string,
       clientSecret: process.env.GITHUB_CLIENT_SECRET as string,
+      authorization: {
+        params: {
+          scope: 'read:user user:email repo read:org',
+        },
+      },
       profile(profile) {
         return {
           id: profile.id.toString(),
@@ -22,11 +28,11 @@ const authOptions: AuthOptions = {
   callbacks: {
     async jwt({ token, user, account }) {
       if (user) {
-        token.id = user.id
+        token.id = user.id;
         token.username = (user as any).username;
       }
       if (account) {
-        token.accessToken = account.access_tokena as string;  
+        token.accessToken = account.access_token || '';
       }
       return token;
     },
@@ -48,21 +54,29 @@ const authOptions: AuthOptions = {
 
       try {
         await connectToDatabase();
+        
+        // Fetch GitHub data during sign in
+        const githubData = await fetchGitHubUserData(account?.access_token as string);
+        
         const existingUser = await User.findOne({ githubId: user.id });
 
         if (!existingUser) {
+          // Create new user with GitHub data
           await User.create({
-            githubId: user.id,
-            username: (user as any).username || user.name,
-            email: user.email,
-            name: user.name,
-            avatarUrl: user.image,
-            languages: [],
-            repos: [],
-            activityLevel: "medium",
-            interests: [],
+            ...githubData,
+            lastSync: new Date(),
           });
+        } else {
+          // Update existing user with latest GitHub data
+          await User.findOneAndUpdate(
+            { githubId: user.id },
+            {
+              ...githubData,
+              lastSync: new Date(),
+            }
+          );
         }
+        
         return true;
       } catch (error) {
         console.error("Error during sign in:", error);
