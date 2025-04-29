@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@octokit/core':
+        specifier: ^6.1.5
+        version: 6.1.5
       '@types/mongoose':
         specifier: ^5.11.97
         version: 5.11.97

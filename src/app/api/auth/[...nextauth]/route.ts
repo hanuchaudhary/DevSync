@@ -64,6 +64,7 @@ const authOptions: AuthOptions = {
           // Create new user with GitHub data
           await User.create({
             ...githubData,
+            email: user.email,
             lastSync: new Date(),
           });
         } else {
@@ -72,6 +73,7 @@ const authOptions: AuthOptions = {
             { githubId: user.id },
             {
               ...githubData,
+              email: user.email,
               lastSync: new Date(),
             }
           );

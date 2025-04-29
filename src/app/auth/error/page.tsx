@@ -1,5 +1,6 @@
 "use client";
 
+import { Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { AlertCircle } from "lucide-react";
@@ -7,13 +8,13 @@ import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 
-export default function ErrorPage() {
+function ErrorPageContent() {
   const searchParams = useSearchParams();
   const error = searchParams.get("error");
-  
+
   let errorTitle = "Authentication Error";
   let errorMessage = "An error occurred during authentication. Please try again.";
-  
+
   if (error === "AccessDenied") {
     errorTitle = "Access Denied";
     errorMessage = "You do not have permission to sign in.";
@@ -27,7 +28,7 @@ export default function ErrorPage() {
     errorTitle = "OAuth Callback Error";
     errorMessage = "There was a problem with the OAuth callback.";
   }
-  
+
   return (
     <div className="container flex items-center justify-center min-h-[80vh]">
       <Card className="w-full max-w-md mx-auto">
@@ -48,5 +49,13 @@ export default function ErrorPage() {
         </CardFooter>
       </Card>
     </div>
+  );
+}
+
+export default function ErrorPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <ErrorPageContent />
+    </Suspense>
   );
 }

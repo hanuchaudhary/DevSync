@@ -16,8 +16,13 @@ export async function GET(req: NextRequest) {
       );
     }
 
+    console.log("Session user:", session);
+    
+
     // Check if we need to sync GitHub data
     const user = await User.findOne({ email: session.user.email });
+    console.log("User found:", user);
+    
     const lastSync = user?.lastSync ? new Date(user.lastSync) : new Date(0);
     const now = new Date();
     const hoursSinceLastSync = (now.getTime() - lastSync.getTime()) / (1000 * 60 * 60);
