@@ -1,15 +1,11 @@
 "use client";
 
-import { useState } from "react";
-import Image from "next/image";
 import { LoginButton } from "@/components/auth-buttons";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function SignIn() {
-  const [isLoading, setIsLoading] = useState(false);
-  
   return (
-    <div className="container flex items-center justify-center min-h-[80vh]">
+    <div className=" flex items-center justify-center min-h-screen">
       <Card className="w-full max-w-md mx-auto">
         <CardHeader className="text-center">
           <CardTitle className="text-2xl">Welcome to DevMatch</CardTitle>

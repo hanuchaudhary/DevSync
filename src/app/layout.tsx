@@ -27,8 +27,7 @@ export default function RootLayout({
             enableSystem
           >
             <div className="relative min-h-screen pb-16 md:pb-0">
-              <Navigation />
-              <main className="py-6 px-4 sm:px-6 md:px-8 max-w-screen-xl mx-auto">
+              <main className="">
                 {children}
               </main>
             </div>

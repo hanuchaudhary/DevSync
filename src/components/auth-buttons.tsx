@@ -6,7 +6,7 @@ import { Github, LogOut } from "lucide-react";
 
 export function LoginButton() {
   return (
-    <Button onClick={() => signIn("github")} className="flex gap-2">
+    <Button onClick={() => signIn("github")} className="flex cursor-pointer gap-2">
       <Github size={18} />
       Sign in with GitHub
     </Button>
@@ -24,7 +24,7 @@ export function LogoutButton() {
     <Button 
       onClick={() => signOut()} 
       variant="outline" 
-      className="flex gap-2"
+      className="flex gap-2 cursor-pointer"
     >
       <LogOut size={18} />
       Sign Out
