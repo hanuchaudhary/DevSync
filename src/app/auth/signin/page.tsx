@@ -1,9 +1,27 @@
 "use client";
 
 import { LoginButton } from "@/components/auth-buttons";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function SignIn() {
+  const router = useRouter();
+  const session = useSession();
+  useEffect(() => {
+    if (!session.data?.user) {
+      router.push("/swipe");
+    }
+  }, []);
+
   return (
     <div className=" flex items-center justify-center min-h-screen">
       <Card className="w-full max-w-md mx-auto">
@@ -19,7 +37,8 @@ export default function SignIn() {
           </div>
           <div className="text-center space-y-2">
             <p className="text-sm text-muted-foreground px-6">
-              We'll use your GitHub profile to help match you with developers with similar interests and skills.
+              We'll use your GitHub profile to help match you with developers
+              with similar interests and skills.
             </p>
           </div>
         </CardContent>

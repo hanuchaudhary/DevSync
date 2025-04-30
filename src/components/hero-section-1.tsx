@@ -1,11 +1,13 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import Link from "next/link";
 import { ArrowRight, ChevronRight, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { AnimatedGroup } from "@/components/ui/animated-group";
 import { cn } from "@/lib/utils";
+import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 const transitionVariants = {
   item: {
@@ -28,6 +30,14 @@ const transitionVariants = {
 };
 
 export function HeroSection() {
+  const router = useRouter();
+    const session = useSession();
+    useEffect(() => {
+      if (!session.data?.user) {
+        router.push("/swipe");
+      }
+    }, []);
+  
   return (
     <>
       <HeroHeader />
