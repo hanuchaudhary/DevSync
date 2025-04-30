@@ -3,7 +3,7 @@ import { getToken } from "next-auth/jwt";
 export { default } from "next-auth/middleware";
 
 export const config = {
-  matcher: ["/swipe/:path*", "/auth/signin", "/signup", "/"],
+  matcher: ["/swipe", "/auth/signin", "/signup", "/"],
 };
 
 export async function middleware(request: NextRequest) {

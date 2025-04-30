@@ -21,13 +21,6 @@ export default function SwipePage() {
   const [matchedUser, setMatchedUser] = useState<any>(null);
   const [matchId, setMatchId] = useState<string | null>(null);
   
-  // Redirect if not logged in
-  useEffect(() => {
-    if (status === "unauthenticated") {
-      router.push("/auth/signin");
-    }
-  }, [status, router]);
-  
   // Fetch profiles
   useEffect(() => {
     if (status === "authenticated") {
@@ -140,8 +133,8 @@ export default function SwipePage() {
   }
   
   return (
-    <div className="container mx-auto max-w-lg">
-      <h1 className="text-2xl font-bold text-center mb-8">
+    <div className="container mx-auto max-w-lg py-10 px-2">
+      <h1 className="md:text-2xl font-bold text-center md:mb-8 mb-4">
         Find Your Coding Partner
       </h1>
       

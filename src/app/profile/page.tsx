@@ -130,7 +130,7 @@ export default function ProfilePage() {
   }
   
   return (
-    <div className="container mx-auto max-w-3xl">
+    <div className="container mx-auto max-w-3xl px-2 py-2">
       <Card className="mb-6">
         <CardHeader className="relative">
           <div className="absolute inset-0 h-32 bg-gradient-to-r from-primary/20 to-primary/10 rounded-t-lg"></div>
