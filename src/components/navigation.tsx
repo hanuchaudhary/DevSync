@@ -13,12 +13,6 @@ export function Navigation() {
 
   const routes = [
     {
-      label: "Home",
-      href: "/",
-      icon: Home,
-      active: pathname === "/",
-    },
-    {
       label: "Swipe",
       href: "/swipe",
       icon: Users,
