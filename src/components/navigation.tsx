@@ -10,7 +10,7 @@ import { cn } from "@/lib/utils";
 
 export function Navigation() {
   const pathname = usePathname();
-  
+
   const routes = [
     {
       label: "Home",
@@ -37,59 +37,61 @@ export function Navigation() {
       active: pathname === "/profile",
     },
   ];
-  
+
   return (
-    <header className="border-b">
-      <div className="flex h-16 items-center justify-between px-4 sm:px-6">
-        <Link href="/" className="flex items-center gap-2">
-          <span className="text-xl font-bold">DevSync</span>
-        </Link>
-        
-        <nav className="hidden md:flex items-center gap-6">
-          {routes.map((route) => (
-            <Link
-              key={route.href}
-              href={route.href}
-              className={cn(
-                "flex items-center gap-1 text-sm font-medium transition-colors",
-                route.active ? 
-                  "text-foreground" : 
-                  "text-muted-foreground hover:text-foreground"
-              )}
-            >
-              <route.icon className="h-4 w-4" />
-              {route.label}
+    <>
+      {pathname != "/" && (
+        <header className="border-b">
+          <div className="flex h-16 items-center justify-between px-4 sm:px-6">
+            <Link href="/" className="flex items-center gap-2">
+              <span className="text-xl font-bold">DevSync</span>
             </Link>
-          ))}
-        </nav>
-        
-        <div className="flex items-center gap-2">
-          <ThemeToggle />
-          <LogoutButton />
-        </div>
-      </div>
-      
-      {/* Mobile bottom navigation */}
-      <div className="block md:hidden fixed bottom-0 left-0 right-0 z-50 bg-background border-t">
-        <div className="flex justify-around items-center h-16">
-          {routes.map((route) => (
-            <Link
-              key={route.href}
-              href={route.href}
-              className={cn(
-                "flex flex-col items-center justify-center w-full h-full",
-                route.active ? 
-                  "text-primary" : 
-                  "text-muted-foreground"
-              )}
-            >
-              <route.icon className="h-5 w-5" />
-              <span className="text-xs mt-1">{route.label}</span>
-            </Link>
-          ))}
-        </div>
-      </div>
-    </header>
+
+            <nav className="hidden md:flex items-center gap-6">
+              {routes.map((route) => (
+                <Link
+                  key={route.href}
+                  href={route.href}
+                  className={cn(
+                    "flex items-center gap-1 text-sm font-medium transition-colors",
+                    route.active
+                      ? "text-foreground"
+                      : "text-muted-foreground hover:text-foreground"
+                  )}
+                >
+                  <route.icon className="h-4 w-4" />
+                  {route.label}
+                </Link>
+              ))}
+            </nav>
+
+            <div className="flex items-center gap-2">
+              <ThemeToggle />
+              <LogoutButton />
+            </div>
+          </div>
+
+          {/* Mobile bottom navigation */}
+          <div className="block md:hidden fixed bottom-0 left-0 right-0 z-50 bg-background border-t">
+            <div className="flex justify-around items-center h-16">
+              {routes.map((route) => (
+                <Link
+                  key={route.href}
+                  href={route.href}
+                  className={cn(
+                    "flex flex-col items-center justify-center w-full h-full",
+                    route.active ? "text-primary" : "text-muted-foreground"
+                  )}
+                >
+                  <route.icon className="h-5 w-5" />
+                  <span className="text-xs mt-1">{route.label}</span>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </header>
+      )}
+    </>
   );
 }
 

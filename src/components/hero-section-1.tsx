@@ -107,7 +107,7 @@ export function HeroSection() {
                     Connect with Devs Who Code Like You
                   </h1>
                   <p className="mx-auto mt-8 max-w-2xl text-balance text-lg">
-                    DeySync matches developers based on GitHub profiles, tech
+                    DevSync matches developers based on GitHub profiles, tech
                     stacks, and project goals. Swipe, match, and build together.
                   </p>
                 </AnimatedGroup>
@@ -175,14 +175,14 @@ export function HeroSection() {
                   <img
                     className="bg-background aspect-15/8 relative hidden rounded-2xl dark:block"
                     src="https://tailark.com//_next/image?url=%2Fmail2.png&w=3840&q=75" // Replace with your app screenshot
-                    alt="DeySync swipe interface"
+                    alt="DevSync swipe interface"
                     width="2700"
                     height="1440"
                   />
                   <img
                     className="z-2 border-border/25 aspect-15/8 relative rounded-2xl border dark:hidden"
                     src="https://tailark.com//_next/image?url=%2Fmail2.png&w=3840&q=75" // Replace with your app screenshot
-                    alt="DeySync swipe interface"
+                    alt="DevSync swipe interface"
                     width="2700"
                     height="1440"
                   />
@@ -284,11 +284,11 @@ const HeroHeader = () => {
             <div className="flex w-full justify-between lg:w-auto">
               <Link
                 href="/"
-                aria-label="DeySync home"
+                aria-label="DevSync home"
                 className="flex items-center space-x-2"
               >
                 <Logo />
-                <span className="text-lg font-bold">DeySync</span>
+                <span className="text-lg font-bold">DevSync</span>
               </Link>
               <button
                 onClick={() => setMenuState(!menuState)}
