@@ -15,12 +15,14 @@ import { useEffect } from "react";
 
 export default function SignIn() {
   const router = useRouter();
-  const session = useSession();
-  useEffect(() => {
-    if (!session.data?.user) {
+   const { data: session, status } = useSession();
+   useEffect(() => {
+    if (status === "authenticated" && session?.user) {
       router.push("/swipe");
     }
-  }, []);
+  }, [status, session]);
+  
+ 
 
   return (
     <div className=" flex items-center justify-center min-h-screen">

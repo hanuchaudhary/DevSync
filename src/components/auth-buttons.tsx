@@ -2,7 +2,7 @@
 
 import { signIn, signOut, useSession } from "next-auth/react";
 import { Button } from "@/components/ui/button";
-import { Github, LogOut } from "lucide-react";
+import { Github, LogOut, Router } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 export function LoginButton() {
@@ -21,6 +21,7 @@ export function LoginButton() {
 
 export function LogoutButton() {
   const { data: session } = useSession();
+  const router = useRouter();
 
   if (!session) {
     return null;
@@ -28,7 +29,11 @@ export function LogoutButton() {
 
   return (
     <Button
-      onClick={() => signOut()}
+      onClick={async () => {
+        await signOut();
+        window.location.href = "/";
+        router.push("/");
+      }}
       variant="outline"
       className="flex gap-2 cursor-pointer"
     >

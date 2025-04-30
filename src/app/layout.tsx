@@ -23,7 +23,7 @@ export default function RootLayout({
         <SessionProvider>
           <ThemeProvider 
             attribute="class" 
-            defaultTheme="system" 
+            defaultTheme="dark" 
             enableSystem
           >
             <div className="relative min-h-screen pb-16 md:pb-0">

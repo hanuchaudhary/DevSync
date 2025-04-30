@@ -31,13 +31,14 @@ const transitionVariants = {
 
 export function HeroSection() {
   const router = useRouter();
-    const session = useSession();
-    useEffect(() => {
-      if (!session.data?.user) {
-        router.push("/swipe");
-      }
-    }, []);
   
+  const { data: session, status } = useSession();
+  useEffect(() => {
+   if (status === "authenticated" && session?.user) {
+     router.push("/swipe");
+   }
+ }, [status, session]);
+
   return (
     <>
       <HeroHeader />
