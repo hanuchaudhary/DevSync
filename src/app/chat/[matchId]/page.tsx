@@ -41,7 +41,7 @@ export default function ChatPage() {
       fetchMessages();
       
       // Poll for new messages every 5 seconds
-      messagePollingInterval.current = setInterval(fetchMessages, 5000);
+      messagePollingInterval.current = setInterval(fetchMessages, 2000);
       
       return () => {
         if (messagePollingInterval.current) {
