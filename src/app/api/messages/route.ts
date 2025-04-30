@@ -102,7 +102,7 @@ export async function POST(req: NextRequest) {
     }
     
     // Get current user
-    const currentUser = await User.findOne({ githubId: session.user.id });
+    const currentUser = await User.findOne({ email: session.user.email });
     
     if (!currentUser) {
       return NextResponse.json(
